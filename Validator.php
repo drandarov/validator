@@ -27,9 +27,7 @@ Class Validator {
 
         foreach ($rules as $var => $rule) {
             if (!array_key_exists($var, $data)) throw new \LogicException("The variable $var is not present in the request!");
-            $result = $validator->validate($data[$var], $rule);
-
-            if (!$result) return $validator->message;
+            $validator->validate($data[$var], $rule);
         }
 
         return $data;
@@ -43,7 +41,7 @@ Class Validator {
     private function validate($variable, array $rules): bool {
         foreach ($rules as $rule) {
             if (preg_match('/\d+/', $rule, $matches)) {
-                $rule = preg_replace('/\d+/', '', $rule);
+                $rule = preg_replace('/\d+/', '', $rule); //TODO remake the logic so that it doesn't interfere with other rules
                 $this->len = (int) $matches[0];
             }
 
