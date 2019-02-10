@@ -51,7 +51,7 @@ Class Validator {
 
             if (!$result) {
                 $this->message = $this->getMessage($variable, $rule);
-                return false;
+                throw new \InvalidArgumentException($this->message);
             }
         }
         return true;
@@ -91,7 +91,7 @@ Class Validator {
             case 'boolean':
                 return "The variable $variable must be a boolean!";
             case 'decimal':
-                return "The variable $variable must be a decimal!";
+                return "The variable $variable must be a valid decimal!";
             case 'decimalLen':
                 return "The variable $variable must have exactly $this->len characters after the dot!";
             case 'decimalLenMin':
@@ -229,7 +229,7 @@ Class Validator {
      * @return bool
      */
     protected function decimal($variable): bool {
-        if (is_numeric($variable)) return true;
+        if (preg_match('/\d\.\d+/', $variable)) return true;
         return false;
     }
 
